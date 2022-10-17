@@ -20,8 +20,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 " age int NOT NULL,\n" +
                 "  PRIMARY KEY (id)\n" +
                 ") ";
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.execute(sql);
         } catch (SQLException e) {
             System.out.println("Error CreateTable");
         }
@@ -30,8 +30,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         final String sql = "DROP TABLE if EXISTS users";
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.execute(sql);
 
         } catch (SQLException e) {
             System.out.println("Error DropTable");
@@ -64,8 +64,8 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> allUsers = new ArrayList<>();
         final String sql = "SELECT * FROM users;";
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -82,8 +82,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         final String sql = "truncate users;";
-        try (Statement statement = connection.createStatement()){
-            statement.execute(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.execute(sql);
         } catch (SQLException e) {
             System.out.println("Error cleanUsersTable");
         }
